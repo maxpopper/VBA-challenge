@@ -1,0 +1,95 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Sub stock()\
+\
+Dim ws As Worksheet\
+    \
+    For Each ws In ThisWorkbook.Worksheets\
+        ws.Activate\
+\
+        \
+        ' declaring all necessary variables\
+        Dim i As Long   ' i has to be a long because it would be too big to fit into an int\
+        Dim ticker As String\
+        Dim year_change As Double\
+        Dim per_change As Double\
+        Dim tsv As LongLong\
+        Dim str_per_change As String\
+        Dim x As Long\
+        \
+        Dim max_per_inc As Double\
+        Dim str_max_inc As String\
+        Dim max_inc_tkr As String\
+        \
+        Dim max_per_dec As Double\
+        Dim str_max_dec As String\
+        Dim max_dec_tkr As String\
+        \
+        Dim max_tsv As LongLong\
+        Dim max_tsv_tkr As String\
+        \
+        x = Cells(Rows.Count, "A").End(xlUp).Row\
+        \
+        For i = 2 To x\
+               ticker = Cells(i, 1).Value\
+                year_change = Cells(i, 6).Value - Cells(i, 3).Value\
+                per_change = Round(((Cells(i, 6).Value - Cells(i, 3).Value) / (Cells(i, 3).Value)) * 100, 2)\
+                tsv = CLngLng(((Cells(i, 4).Value + Cells(i, 5).Value) / 2) * Cells(i, 7).Value)\
+                \
+                str_per_change = CStr(per_change) + "%"\
+                \
+                ' determining if each % change and total stock volume values are the greatest\
+                If i = 2 Then\
+                    max_per_inc = per_change\
+                    str_max_inc = CStr(max_per_inc) + "%"\
+                    max_inc_tkr = Cells(i, 1).Value\
+                    \
+                    max_per_dec = per_change\
+                    str_max_dec = CStr(max_per_dec) + "%"\
+                    max_dec_tkr = Cells(i, 1).Value\
+                    \
+                    max_tsv = tsv\
+                    max_tsv_tkr = Cells(i, 1).Value\
+                    \
+                ElseIf per_change > max_per_inc Then\
+                    max_per_inc = per_change\
+                    str_max_inc = CStr(max_per_inc) + "%"\
+                    max_inc_tkr = Cells(i, 1).Value\
+                    \
+                ElseIf per_change < max_per_dec Then\
+                    max_per_dec = per_change\
+                    str_max_dec = CStr(max_per_dec) + "%"\
+                    max_dec_tkr = Cells(i, 1).Value\
+                    \
+                ElseIf tsv > max_tsv Then\
+                    max_tsv = tsv\
+                    max_dec_tkr = Cells(i, 1).Value\
+                    \
+                End If\
+                \
+                ' plugging necessary values into the columns\
+                Cells(i, 9).Value = ticker\
+                Cells(i, 10).Value = year_change\
+                Cells(i, 11).Value = str_per_change\
+                Cells(i, 12).Value = tsv\
+                Next i\
+        \
+        ' populating the inset table asking for the greatest % changes and greatest total stock volume\
+        Cells(2, 16) = max_inc_tkr\
+        Cells(2, 17) = str_max_inc\
+        \
+        Cells(3, 16) = max_dec_tkr\
+        Cells(3, 17) = str_max_dec\
+        \
+        Cells(4, 16) = max_tsv_tkr\
+        Cells(4, 17) = max_tsv\
+\
+    Next ws\
+\
+End Sub\
+}
