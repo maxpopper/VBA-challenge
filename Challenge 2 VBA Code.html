@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2299.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">Sub stock()</p>
+<p class="p2"><br></p>
+<p class="p1">Dim ws As Worksheet</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>For Each ws In ThisWorkbook.Worksheets</p>
+<p class="p1"><span class="Apple-converted-space">        </span>ws.Activate</p>
+<p class="p2"><br></p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>' declaring all necessary variables</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim i As Long <span class="Apple-converted-space">  </span>' i has to be a long because it would be too big to fit into an int</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim ticker As String</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim year_change As Double</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim per_change As Double</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim tsv As LongLong</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim str_per_change As String</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim x As Long</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim max_per_inc As Double</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim str_max_inc As String</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim max_inc_tkr As String</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim max_per_dec As Double</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim str_max_dec As String</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim max_dec_tkr As String</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim max_tsv As LongLong</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Dim max_tsv_tkr As String</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>x = Cells(Rows.Count, "A").End(xlUp).Row</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>For i = 2 To x</p>
+<p class="p1"><span class="Apple-converted-space">               </span>ticker = Cells(i, 1).Value</p>
+<p class="p1"><span class="Apple-converted-space">                </span>year_change = Cells(i, 6).Value - Cells(i, 3).Value</p>
+<p class="p1"><span class="Apple-converted-space">                </span>per_change = Round(((Cells(i, 6).Value - Cells(i, 3).Value) / (Cells(i, 3).Value)) * 100, 2)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tsv = CLngLng(((Cells(i, 4).Value + Cells(i, 5).Value) / 2) * Cells(i, 7).Value)</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>str_per_change = CStr(per_change) + "%"</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>' determining if each % change and total stock volume values are the greatest</p>
+<p class="p1"><span class="Apple-converted-space">                </span>If i = 2 Then</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_per_inc = per_change</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>str_max_inc = CStr(max_per_inc) + "%"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_inc_tkr = Cells(i, 1).Value</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_per_dec = per_change</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>str_max_dec = CStr(max_per_dec) + "%"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_dec_tkr = Cells(i, 1).Value</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_tsv = tsv</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_tsv_tkr = Cells(i, 1).Value</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>ElseIf per_change &gt; max_per_inc Then</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_per_inc = per_change</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>str_max_inc = CStr(max_per_inc) + "%"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_inc_tkr = Cells(i, 1).Value</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>ElseIf per_change &lt; max_per_dec Then</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_per_dec = per_change</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>str_max_dec = CStr(max_per_dec) + "%"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_dec_tkr = Cells(i, 1).Value</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>ElseIf tsv &gt; max_tsv Then</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_tsv = tsv</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>max_dec_tkr = Cells(i, 1).Value</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>End If</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>' plugging necessary values into the columns</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Cells(i, 9).Value = ticker</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Cells(i, 10).Value = year_change</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Cells(i, 11).Value = str_per_change</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Cells(i, 12).Value = tsv</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Next i</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>' populating the inset table asking for the greatest % changes and greatest total stock volume</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Cells(2, 16) = max_inc_tkr</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Cells(2, 17) = str_max_inc</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>Cells(3, 16) = max_dec_tkr</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Cells(3, 17) = str_max_dec</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>Cells(4, 16) = max_tsv_tkr</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Cells(4, 17) = max_tsv</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>Next ws</p>
+<p class="p2"><br></p>
+<p class="p1">End Sub</p>
+</body>
+</html>
